@@ -1,5 +1,3 @@
- **워크플로우 내용 입력**:
-```yaml
 name: DART Telegram Notification
 
 on:
@@ -33,4 +31,3 @@ jobs:
         CHAT_ID: ${{ secrets.CHAT_ID }}
         RUN_TEST_ON_START: 'true'
       run: python cloud_dart_notifier.py
-      ```
