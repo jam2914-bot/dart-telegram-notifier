@@ -1,0 +1,36 @@
+ **워크플로우 내용 입력**:
+```yaml
+name: DART Telegram Notification
+
+on:
+  schedule:
+    # 매일 06:00 UTC (15:00 KST)에 실행
+    - cron: '0 6 * * *'
+  workflow_dispatch:  # 수동 실행 가능
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run DART notification
+      env:
+        DART_API_KEY: ${{ secrets.DART_API_KEY }}
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        CHAT_ID: ${{ secrets.CHAT_ID }}
+        RUN_TEST_ON_START: 'true'
+      run: python cloud_dart_notifier.py
+      ```
